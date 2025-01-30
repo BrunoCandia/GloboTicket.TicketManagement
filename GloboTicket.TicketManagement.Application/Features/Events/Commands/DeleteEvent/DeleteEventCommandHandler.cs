@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using GloboTicket.TicketManagement.Application.Exceptions;
 using GloboTicket.TicketManagement.Application.Features.Events.Commands.UpdateEvent;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
@@ -23,7 +24,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Dele
 
             if (eventToUpdate is null)
             {
-                ////throw new NotFoundException(nameof(Event), request.EventId);
+                throw new NotFoundException(nameof(Event), request.EventId);
             }
 
             _mapper.Map(request, eventToUpdate, typeof(UpdateEventCommand), typeof(Event));

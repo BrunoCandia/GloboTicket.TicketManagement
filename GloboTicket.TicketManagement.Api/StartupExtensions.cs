@@ -1,4 +1,5 @@
-﻿using GloboTicket.TicketManagement.Application;
+﻿using GloboTicket.TicketManagement.Api.Middleware;
+using GloboTicket.TicketManagement.Application;
 using GloboTicket.TicketManagement.Infraestructure;
 using GloboTicket.TicketManagement.Persistence;
 
@@ -45,6 +46,8 @@ namespace GloboTicket.TicketManagement.Api
                     options.RoutePrefix = string.Empty;
                 });
             }
+
+            webApplication.UseMiddleware<ExceptionHandlerMiddleware>();
 
             webApplication.UseHttpsRedirection();
             webApplication.MapControllers();

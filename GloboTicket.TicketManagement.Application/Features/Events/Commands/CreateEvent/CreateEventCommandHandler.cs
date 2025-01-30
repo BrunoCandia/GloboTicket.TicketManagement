@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Infraestructure;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using GloboTicket.TicketManagement.Application.Exceptions;
 using GloboTicket.TicketManagement.Application.Models.Mail;
 using GloboTicket.TicketManagement.Domain.Entities;
 
@@ -26,7 +27,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
             var validationResult = await validator.ValidateAsync(request);
 
             if (validationResult.Errors.Count > 0)
-                throw new Exceptions.ValidationException(validationResult);
+                throw new ValidationException(validationResult);
 
             var @event = _mapper.Map<Event>(request);
 

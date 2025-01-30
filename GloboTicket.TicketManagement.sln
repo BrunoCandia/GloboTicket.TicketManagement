@@ -29,8 +29,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GloboTicket.TicketManagemen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{B0B09860-AC49-416A-B4C8-B61C4CCE72B1}"
 	ProjectSection(SolutionItems) = preProject
+		NSwagSettings.nswag = NSwagSettings.nswag
 		ReadMe.md = ReadMe.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GloboTicket.TicketManagement.App", "GloboTicket.TicketManagement.App\GloboTicket.TicketManagement.App.csproj", "{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +65,10 @@ Global
 		{AD910F1D-D1F8-4FA8-B087-04FEB19BD54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD910F1D-D1F8-4FA8-B087-04FEB19BD54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD910F1D-D1F8-4FA8-B087-04FEB19BD54B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,5 +84,6 @@ Global
 		{C7E6D935-D11A-4DCF-A567-A92777444CE4} = {29B75495-5B19-430F-948B-EB958B48AE29}
 		{17502C16-8088-41EE-92A6-8F490E488AE2} = {CAC77A3C-C23A-4A9D-9827-20B4B3B1A1C0}
 		{AD910F1D-D1F8-4FA8-B087-04FEB19BD54B} = {29B75495-5B19-430F-948B-EB958B48AE29}
+		{31D63C38-E26A-4F36-AAB8-D0DE660B3DB1} = {07AA88C0-A8FA-45C2-BD59-EB9E32E89C79}
 	EndGlobalSection
 EndGlobal
