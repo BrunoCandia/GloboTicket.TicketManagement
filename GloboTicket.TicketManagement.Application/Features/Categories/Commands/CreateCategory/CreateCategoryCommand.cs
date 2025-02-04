@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace GloboTicket.TicketManagement.Application.Features.Categories.Commands
+namespace GloboTicket.TicketManagement.Application.Features.Categories.Commands.CreateCategory
 {
     public class CreateCategoryCommand : IRequest<CreateCategoryCommandResponse>
     {

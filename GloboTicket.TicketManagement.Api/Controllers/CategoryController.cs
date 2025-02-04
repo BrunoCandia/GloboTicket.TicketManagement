@@ -1,4 +1,4 @@
-﻿using GloboTicket.TicketManagement.Application.Features.Categories.Commands;
+﻿using GloboTicket.TicketManagement.Application.Features.Categories.Commands.CreateCategory;
 using GloboTicket.TicketManagement.Application.Features.Categories.Queries.GetCategoriesList;
 using GloboTicket.TicketManagement.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
 using MediatR;
