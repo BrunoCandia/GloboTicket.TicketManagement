@@ -42,8 +42,9 @@ namespace GloboTicket.TicketManagement.App.Auth
                     return new ApiResponse { Success = true };
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Login failed: {ex.Message}");
             }
 
             return new ApiResponse
@@ -70,8 +71,11 @@ namespace GloboTicket.TicketManagement.App.Auth
                 }
 
                 var details = await result.Content.ReadAsStringAsync();
+
                 var problemDetails = JsonDocument.Parse(details);
+
                 string errors = string.Empty;
+
                 var errorList = problemDetails.RootElement.GetProperty("errors");
 
                 foreach (var errorEntry in errorList.EnumerateObject())
@@ -85,7 +89,10 @@ namespace GloboTicket.TicketManagement.App.Auth
                     ValidationErrors = errors
                 };
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Register failed: {ex.Message}");
+            }
 
             return new ApiResponse
             {
@@ -132,7 +139,10 @@ namespace GloboTicket.TicketManagement.App.Auth
                     _authenticated = true;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Authentication failed: {ex.Message}");
+            }
 
             return new AuthenticationState(user);
         }

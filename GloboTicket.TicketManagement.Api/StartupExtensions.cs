@@ -1,7 +1,13 @@
 ﻿using GloboTicket.TicketManagement.Api.Middleware;
+using GloboTicket.TicketManagement.Api.Services;
 using GloboTicket.TicketManagement.Application;
+using GloboTicket.TicketManagement.Application.Contracts.Identity;
+using GloboTicket.TicketManagement.Identity;
+using GloboTicket.TicketManagement.Identity.Models;
 using GloboTicket.TicketManagement.Infraestructure;
 using GloboTicket.TicketManagement.Persistence;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace GloboTicket.TicketManagement.Api
 {
@@ -12,21 +18,26 @@ namespace GloboTicket.TicketManagement.Api
             webApplicationBuilder.Services.AddApplicationServices();
             webApplicationBuilder.Services.AddInfraestructureServices(webApplicationBuilder.Configuration);
             webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
             webApplicationBuilder.Services.AddControllers();
 
-            webApplicationBuilder.Services.AddHttpContextAccessor(); //// se precisa ???
+            webApplicationBuilder.Services.AddHttpContextAccessor();
 
             webApplicationBuilder.Services.AddCors(options =>
             {
                 options.AddPolicy(
                     "open",
-                    policy => policy.WithOrigins([webApplicationBuilder.Configuration["ApiUrl"] ?? "https://localhost:7020", webApplicationBuilder.Configuration["BlazorUrl"] ?? "http://localhost:7080"])
+                    policy => policy.WithOrigins([webApplicationBuilder.Configuration["ApiUrl"] ?? "https://localhost:7073", webApplicationBuilder.Configuration["BlazorUrl"] ?? "http://localhost:7080"])
                         .AllowAnyMethod()
                         .SetIsOriginAllowed(policy => true)
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
+
+            webApplicationBuilder.Services.AddEndpointsApiExplorer();
 
             webApplicationBuilder.Services.AddSwaggerGen();
 
@@ -35,6 +46,14 @@ namespace GloboTicket.TicketManagement.Api
 
         public static WebApplication ConfigurePipeline(this WebApplication webApplication)
         {
+            webApplication.MapIdentityApi<ApplicationUser>();
+
+            webApplication.MapPost("/Logout", async (ClaimsPrincipal user, SignInManager<ApplicationUser> signInManager) =>
+            {
+                await signInManager.SignOutAsync();
+                return TypedResults.Ok();
+            });
+
             webApplication.UseCors("open");
 
             if (webApplication.Environment.IsDevelopment())
@@ -47,9 +66,14 @@ namespace GloboTicket.TicketManagement.Api
                 });
             }
 
+            webApplication.UseAuthentication();
+
+            webApplication.UseAuthorization();
+
             webApplication.UseMiddleware<ExceptionHandlerMiddleware>();
 
             webApplication.UseHttpsRedirection();
+
             webApplication.MapControllers();
 
             return webApplication;
