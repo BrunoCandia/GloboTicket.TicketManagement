@@ -19,14 +19,14 @@ namespace GloboTicket.TicketManagement.App.Pages
 
         public Register()
         {
-
         }
+
         protected override void OnInitialized()
         {
             RegisterViewModel = new RegisterViewModel();
         }
 
-        protected async void HandleValidSubmit()
+        protected async Task HandleValidSubmit()
         {
             await AuthenticationService.Register(RegisterViewModel.Email, RegisterViewModel.Password);
 

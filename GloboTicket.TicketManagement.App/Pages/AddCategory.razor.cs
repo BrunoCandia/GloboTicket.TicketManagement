@@ -3,20 +3,20 @@ using GloboTicket.TicketManagement.App.Services;
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
     public partial class AddCategory
     {
         [Inject]
-        public ICategoryDataService CategoryDataService { get; set; }
+        public ICategoryDataService CategoryDataService { get; set; } = default!;
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = default!;
 
-        public CategoryViewModel CategoryViewModel { get; set; }
-        public string Message { get; set; }
+        public CategoryViewModel CategoryViewModel { get; set; } = default!;
+
+        public string Message { get; set; } = string.Empty;
 
         protected override void OnInitialized()
         {

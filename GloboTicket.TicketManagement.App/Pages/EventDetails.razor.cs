@@ -2,35 +2,32 @@
 using GloboTicket.TicketManagement.App.Services.Base;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
     public partial class EventDetails
     {
         [Inject]
-        public IEventDataService EventDataService { get; set; }
+        public IEventDataService EventDataService { get; set; } = default!;
 
         [Inject]
-        public ICategoryDataService CategoryDataService { get; set; }
+        public ICategoryDataService CategoryDataService { get; set; } = default!;
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = default!;
 
-        public EventDetailViewModel EventDetailViewModel { get; set; } 
-            = new EventDetailViewModel() { Date = DateTime.Now.AddDays(1) };
+        public EventDetailViewModel EventDetailViewModel { get; set; } = new EventDetailViewModel() { Date = DateTimeOffset.Now.AddDays(1) };
 
-        public ObservableCollection<CategoryViewModel> Categories { get; set; } 
-            = new ObservableCollection<CategoryViewModel>();
+        public ObservableCollection<CategoryViewModel> Categories { get; set; } = new ObservableCollection<CategoryViewModel>();
 
-        public string Message { get; set; }
-        public string SelectedCategoryId { get; set; }
+        public string Message { get; set; } = string.Empty;
+
+        public string SelectedCategoryId { get; set; } = string.Empty;
 
         [Parameter]
         public string EventId { get; set; }
+
         private Guid SelectedEventId = Guid.Empty;
 
         protected override async Task OnInitializedAsync()
@@ -57,10 +54,10 @@ namespace GloboTicket.TicketManagement.App.Pages
             }
             else
             {
-                 response = await EventDataService.UpdateEvent(EventDetailViewModel);
+                response = await EventDataService.UpdateEvent(EventDetailViewModel);
             }
-            HandleResponse(response);
 
+            HandleResponse(response);
         }
 
         protected async Task DeleteEvent()

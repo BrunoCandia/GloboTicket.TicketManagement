@@ -2,15 +2,15 @@
 {
     public class PaginatedList<T>
     {
-        public PaginatedList()
-        {
-
-        }
-
         public int PageIndex { get; set; }
+
         public int TotalPages { get; set; }
 
         public List<T> Items { get; set; }
+
+        public PaginatedList()
+        {
+        }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {

@@ -2,25 +2,24 @@
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
     public partial class EventOverview
     {
         [Inject]
-        public IEventDataService EventDataService { get; set; }
+        public IEventDataService EventDataService { get; set; } = default!;
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = default!;
 
-        public ICollection<EventListViewModel> Events { get; set; }
+        public ICollection<EventListViewModel> Events { get; set; } = new List<EventListViewModel>();
 
         [Inject]
-        public IJSRuntime JSRuntime { get; set; }
+        public IJSRuntime JSRuntime { get; set; } = default!;
+
+        [Inject]
+        public HttpClient HttpClient { get; set; } = default!;
 
         protected async override Task OnInitializedAsync()
         {
@@ -32,14 +31,11 @@ namespace GloboTicket.TicketManagement.App.Pages
             NavigationManager.NavigateTo("/eventdetails");
         }
 
-        [Inject]
-        public HttpClient HttpClient { get; set; }
-
         protected async Task ExportEvents()
         {
             if (await JSRuntime.InvokeAsync<bool>("confirm", $"Do you want to export this list to Excel?"))
             {
-                var response = await HttpClient.GetAsync($"https://localhost:7020/api/events/export");
+                var response = await HttpClient.GetAsync($"https://localhost:7073/api/events/export");
                 response.EnsureSuccessStatusCode();
                 var fileBytes = await response.Content.ReadAsByteArrayAsync();
                 var fileName = $"MyReport{DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)}.csv";

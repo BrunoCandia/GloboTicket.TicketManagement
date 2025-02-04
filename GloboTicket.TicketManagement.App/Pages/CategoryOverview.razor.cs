@@ -1,20 +1,18 @@
 ﻿using GloboTicket.TicketManagement.App.Contracts;
 using GloboTicket.TicketManagement.App.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GloboTicket.TicketManagement.App.Pages
 {
     public partial class CategoryOverview
     {
         [Inject]
-        public ICategoryDataService CategoryDataService{ get; set; }
+        public ICategoryDataService CategoryDataService { get; set; } = default!;
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public NavigationManager NavigationManager { get; set; } = default!;
 
-        public ICollection<CategoryEventsViewModel> Categories { get; set; }
+        public ICollection<CategoryEventsViewModel> Categories { get; set; } = new List<CategoryEventsViewModel>();
 
         protected async override Task OnInitializedAsync()
         {
@@ -23,9 +21,9 @@ namespace GloboTicket.TicketManagement.App.Pages
 
         protected async void OnIncludeHistoryChanged(ChangeEventArgs args)
         {
-            if((bool)args.Value)
+            if (args.Value is bool includeHistory)
             {
-                Categories = await CategoryDataService.GetAllCategoriesWithEvents(true);
+                Categories = await CategoryDataService.GetAllCategoriesWithEvents(includeHistory);
             }
             else
             {
