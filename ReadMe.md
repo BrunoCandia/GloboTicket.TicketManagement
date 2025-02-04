@@ -1,16 +1,25 @@
-Para ejecutar una migracion sobre Persistence:
+# Default Admin User
+**Email:** admin_user@gmail.com  
+**Password:** `Admin@12345`
 
-Default project: GloboTicket.TicketManagement.Persistence
+# Execute the migration for Persistence:
 
+**Default project:** `GloboTicket.TicketManagement.Persistence`
+
+```sh
 add-migration MigrationName
 update-database
+```
 
-Para bajar la aplicacion:
-https://github.com/RicoSuter/NSwag/wiki/nswagstudio
+# Execute the migration for Identity:
 
-Para ejecutar una migracion sobre Identity:
+**Default project:** `GloboTicket.TicketManagement.Identity`
 
-Default project: GloboTicket.TicketManagement.Identity
-
+```sh
 add-migration Initial_Identity -StartupProject GloboTicket.TicketManagement.Api -Context GloboTicketIdentityDbContext
 update-database -StartupProject GloboTicket.TicketManagement.Api -Context GloboTicketIdentityDbContext
+```
+
+# Download the app:
+
+[NSwagStudio](https://github.com/RicoSuter/NSwag/wiki/nswagstudio)
