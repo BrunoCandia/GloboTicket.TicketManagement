@@ -24,10 +24,10 @@ builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStat
 
 builder.Services.AddTransient<CookieAuthenticationStateProvider>();
 
-builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7081/"))
+builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7073/"))
     .AddHttpMessageHandler<CookieHandler>();
 
-builder.Services.AddHttpClient("Authentication", client => client.BaseAddress = new Uri("https://localhost:7081"))
+builder.Services.AddHttpClient("Authentication", client => client.BaseAddress = new Uri("https://localhost:7073"))
     .AddHttpMessageHandler<CookieHandler>();
 
 builder.Services.AddScoped<IEventDataService, EventDataService>();
