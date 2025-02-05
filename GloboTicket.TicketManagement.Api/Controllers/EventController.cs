@@ -12,7 +12,7 @@ namespace GloboTicket.TicketManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class EventController : ApiControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -32,11 +32,17 @@ namespace GloboTicket.TicketManagement.Api.Controllers
         }
 
         [HttpGet("{id}", Name = "GetEventById")]
-        public async Task<ActionResult<EventDetailVm>> GetEventById(Guid id)
+        [ProducesResponseType(typeof(EventDetailVm), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetEventById(Guid id)
         {
             var getEventDetailQuery = new GetEventDetailQuery() { Id = id };
+            var result = await _mediator.Send(getEventDetailQuery);
 
-            return Ok(await _mediator.Send(getEventDetailQuery));
+            return result.Match<IActionResult>(
+                eventDetailVm => Ok(eventDetailVm),
+                notFoundError => ProcessError(notFoundError)
+            );
         }
 
         [HttpPost(Name = "AddEvent")]
@@ -51,23 +57,30 @@ namespace GloboTicket.TicketManagement.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateEventCommand updateEventCommand)
+        public async Task<IActionResult> Update([FromBody] UpdateEventCommand updateEventCommand)
         {
-            await _mediator.Send(updateEventCommand);
+            var result = await _mediator.Send(updateEventCommand);
 
-            return NoContent();
+            return result.Match<IActionResult>(
+                success => NoContent(),
+                notFoundError => ProcessError(notFoundError),
+                validationError => ProcessError(validationError)
+            );
         }
 
         [HttpDelete("{id}", Name = "DeleteEvent")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var deleteEventCommand = new DeleteEventCommand() { EventId = id };
-            await _mediator.Send(deleteEventCommand);
+            var result = await _mediator.Send(deleteEventCommand);
 
-            return NoContent();
+            return result.Match<IActionResult>(
+                success => NoContent(),
+                notFoundError => ProcessError(notFoundError)
+            );
         }
 
         [HttpGet("export", Name = "ExportEvents")]

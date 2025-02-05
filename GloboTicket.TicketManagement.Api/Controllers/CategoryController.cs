@@ -9,7 +9,7 @@ namespace GloboTicket.TicketManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController : ApiControllerBase
     {
         private readonly IMediator _mediator;
 

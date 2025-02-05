@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Infraestructure;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using GloboTicket.TicketManagement.Application.Exceptions;
 using GloboTicket.TicketManagement.Application.Models.Mail;
+using GloboTicket.TicketManagement.Application.Responses;
 using GloboTicket.TicketManagement.Domain.Entities;
 using Microsoft.Extensions.Logging;
+using OneOf;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.CreateEvent
 {
@@ -23,14 +24,14 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
             _logger = logger;
         }
 
-        public async Task<Guid> Handle(CreateEventCommand request, CancellationToken cancellationToken)
+        public async Task<OneOf<Guid, ApiValidationResponse>> Handle(CreateEventCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateEventCommandValidator(_eventRepository);
 
             var validationResult = await validator.ValidateAsync(request);
 
             if (validationResult.Errors.Count > 0)
-                throw new ValidationException(validationResult);
+                return new ApiValidationResponse(validationResult);
 
             var @event = _mapper.Map<Event>(request);
 

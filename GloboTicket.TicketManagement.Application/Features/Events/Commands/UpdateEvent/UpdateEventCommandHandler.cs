@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
-using GloboTicket.TicketManagement.Application.Exceptions;
+using GloboTicket.TicketManagement.Application.Responses;
 using GloboTicket.TicketManagement.Domain.Entities;
-using MediatR;
+using OneOf;
+using OneOf.Types;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
+    public class UpdateEventCommandHandler
     {
         private readonly IRepository<Event> _eventRepository;
         private readonly IMapper _mapper;
@@ -17,24 +18,26 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Upda
             _eventRepository = eventRepository;
         }
 
-        public async Task Handle(UpdateEventCommand request, CancellationToken cancellationToken)
+        public async Task<OneOf<Success, EventNotFoundResponse, ApiValidationResponse>> Handle(UpdateEventCommand request, CancellationToken cancellationToken)
         {
             var eventToUpdate = await _eventRepository.GetByIdAsync(request.EventId);
 
             if (eventToUpdate is null)
             {
-                throw new NotFoundException(nameof(Event), request.EventId);
+                return new EventNotFoundResponse(request.EventId);
             }
 
             var validator = new UpdateEventCommandValidator();
             var validationResult = await validator.ValidateAsync(request);
 
             if (validationResult.Errors.Count > 0)
-                throw new ValidationException(validationResult);
+                return new ApiValidationResponse(validationResult);
 
             _mapper.Map(request, eventToUpdate, typeof(UpdateEventCommand), typeof(Event));
 
             await _eventRepository.UpdateAsync(eventToUpdate);
+
+            return new Success();
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using GloboTicket.TicketManagement.Application.Contracts.Persistence;
+using GloboTicket.TicketManagement.Application.Responses;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
+using OneOf;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEventDetail
 {
-    public class GetEventDetailQueryHandler : IRequestHandler<GetEventDetailQuery, EventDetailVm>
+    public class GetEventDetailQueryHandler : IRequestHandler<GetEventDetailQuery, OneOf<EventDetailVm, EventNotFoundResponse>>
     {
         private readonly IRepository<Event> _eventRepository;
         private readonly IRepository<Category> _categoryRepository;
@@ -18,9 +20,14 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEv
             _mapper = mapper;
         }
 
-        public async Task<EventDetailVm> Handle(GetEventDetailQuery request, CancellationToken cancellationToken)
+        public async Task<OneOf<EventDetailVm, EventNotFoundResponse>> Handle(GetEventDetailQuery request, CancellationToken cancellationToken)
         {
             var @event = await _eventRepository.GetByIdAsync(request.Id);
+
+            if (@event is null)
+            {
+                return new EventNotFoundResponse(request.Id);
+            }
 
             var eventDetailDto = _mapper.Map<EventDetailVm>(@event);
 

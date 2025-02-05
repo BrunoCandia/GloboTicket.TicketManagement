@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using GloboTicket.TicketManagement.Application.Responses;
+using MediatR;
+using OneOf;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.CreateEvent
 {
-    public class CreateEventCommand : IRequest<Guid>
+    public class CreateEventCommand : IRequest<OneOf<Guid, ApiValidationResponse>>
     {
         public string Name { get; set; } = string.Empty;
         public int Price { get; set; }

@@ -1,8 +1,11 @@
-﻿using MediatR;
+﻿using GloboTicket.TicketManagement.Application.Responses;
+using MediatR;
+using OneOf;
+using OneOf.Types;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.UpdateEvent
 {
-    public class UpdateEventCommand : IRequest
+    public class UpdateEventCommand : IRequest<OneOf<Success, EventNotFoundResponse, ApiValidationResponse>>
     {
         public Guid EventId { get; set; }
         public string Name { get; set; } = string.Empty;

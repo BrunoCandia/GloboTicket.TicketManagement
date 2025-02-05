@@ -6,7 +6,7 @@ namespace GloboTicket.TicketManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController : ApiControllerBase
     {
         private readonly IMediator _mediator;
 
