@@ -46,11 +46,16 @@ namespace GloboTicket.TicketManagement.Api.Controllers
         }
 
         [HttpPost(Name = "AddEvent")]
-        public async Task<ActionResult<Guid>> Create([FromBody] CreateEventCommand createEventCommand)
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateEventCommand createEventCommand)
         {
-            var id = await _mediator.Send(createEventCommand);
+            var result = await _mediator.Send(createEventCommand);
 
-            return Ok(id);
+            return result.Match<IActionResult>(
+                guid => Ok(guid),
+                validationError => ProcessError(validationError)
+            );
         }
 
         [HttpPut(Name = "UpdateEvent")]

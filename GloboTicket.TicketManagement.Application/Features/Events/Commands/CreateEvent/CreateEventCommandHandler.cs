@@ -4,12 +4,13 @@ using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Application.Models.Mail;
 using GloboTicket.TicketManagement.Application.Responses;
 using GloboTicket.TicketManagement.Domain.Entities;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using OneOf;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.CreateEvent
 {
-    public class CreateEventCommandHandler
+    public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, OneOf<Guid, ApiValidationResponse>>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IMapper _mapper;

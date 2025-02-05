@@ -3,12 +3,13 @@ using GloboTicket.TicketManagement.Application.Contracts.Persistence;
 using GloboTicket.TicketManagement.Application.Features.Events.Commands.UpdateEvent;
 using GloboTicket.TicketManagement.Application.Responses;
 using GloboTicket.TicketManagement.Domain.Entities;
+using MediatR;
 using OneOf;
 using OneOf.Types;
 
 namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.DeleteEvent
 {
-    public class DeleteEventCommandHandler
+    public class DeleteEventCommandHandler : IRequestHandler<DeleteEventCommand, OneOf<Success, EventNotFoundResponse>>
     {
         private readonly IRepository<Event> _eventRepository;
         private readonly IMapper _mapper;
