@@ -23,3 +23,11 @@ update-database -StartupProject GloboTicket.TicketManagement.Api -Context GloboT
 # Download the app:
 
 [NSwagStudio](https://github.com/RicoSuter/NSwag/wiki/nswagstudio)
+
+# Architecture Tests using ArchUnitNET
+
+-**Layered Rules**: Enforces separation of concerns.
+-**Naming Rules**: Ensures consistency across the codebase.
+-**Dependency Rules**: Prevents tight coupling and circular references.
+
+For reference, https://youtu.be/-vC-E6tAMNs
