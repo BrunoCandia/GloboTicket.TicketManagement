@@ -20,7 +20,7 @@ namespace GloboTicket.TicketManagement.Api
             webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
             webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
 
-            webApplicationBuilder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+            webApplicationBuilder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>(); // This is for unit tests
 
             webApplicationBuilder.Services.AddControllers();
 

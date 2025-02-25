@@ -23,3 +23,10 @@ var app = builder.ConfigureService()
 app.UseSerilogRequestLogging();
 
 await app.RunAsync();
+
+public partial class Program
+{
+    ////protected Program()
+    ////{
+    ////}
+}

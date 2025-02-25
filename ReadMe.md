@@ -64,3 +64,11 @@ update-database -StartupProject GloboTicket.TicketManagement.Api -Context GloboT
 ## 5. BaseDataService.cs
 - Handles different exceptions based on the status code.
 - Implements logic to manage various API errors effectively.
+
+# Architecture Tests using ArchUnitNET
+
+-**Layered Rules**: Enforces separation of concerns.
+-**Naming Rules**: Ensures consistency across the codebase.
+-**Dependency Rules**: Prevents tight coupling and circular references.
+
+For reference, https://youtu.be/-vC-E6tAMNs
