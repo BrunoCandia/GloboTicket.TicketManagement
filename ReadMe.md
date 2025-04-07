@@ -72,3 +72,9 @@ update-database -StartupProject GloboTicket.TicketManagement.Api -Context GloboT
 -**Dependency Rules**: Prevents tight coupling and circular references.
 
 For reference, https://youtu.be/-vC-E6tAMNs
+
+# Create solution structure
+
+- Start from an Empty Solution template.
+- Add src folder.
+- Add test folder.
